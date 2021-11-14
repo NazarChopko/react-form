@@ -1,0 +1,35 @@
+html {
+  background: url("./libs/icon/bg-cover.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Rubik", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#lastName,
+#firstName,
+#phoneNumber,
+#password,
+#confirmPassword,
+#email {
+  padding-left: 30px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
