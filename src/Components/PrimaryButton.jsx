@@ -28,7 +28,8 @@ const PrimaryButton = ({children,isAgree}) => {
         className={styles.root} 
         type="submit"
         disabled={isAgree}
-        variant='contained'>
+        variant='contained'
+       >
             {children}
         </Button>
     )

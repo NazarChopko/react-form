@@ -84,8 +84,8 @@ const useStyles = makeStyles({
             </InputAdornment>}
             autoHighlight
             onChange={(_,value)=>{
-                setChooseCountryPhone(`+${value.phone}`);
-                setCountryCode(value.code)
+                setChooseCountryPhone(()=>value ?`+${value?.phone}` :" ");
+                setCountryCode(()=>value ?value?.code :'')
         }}
             getOptionLabel={(option) => {
              return  option.label} }

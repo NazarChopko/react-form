@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {useForm} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -7,7 +7,6 @@ import MainContainer from './MainContainer'
 import PrimaryButton from './PrimaryButton'
 import Input from './Input'
 import { makeStyles } from '@material-ui/core/styles'
-import {InputAdornment} from '@material-ui/core'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import SupervisedUserCircleOutlinedIcon from '@material-ui/icons/SupervisedUserCircleOutlined';
@@ -86,19 +85,27 @@ const useStyles = makeStyles((theme)=>({
 
 const Form = () => {
 
-    const [data,setData] = useState()
+    const [data,setData] = useState(null)
     const [chooseCountryPhone,setChooseCountryPhone] = useState(null) 
     const [countryCode,setCountryCode] = useState(null)
+    const [isAgree,setIsAgree] = useState(false)
     const styles = useStyles()
+    console.log(data)
 
-
-    const {register,handleSubmit,formState:{ errors },watch} = useForm({
+    
+    const {register,handleSubmit,reset,formState:{ errors,isSubmitSuccessful },watch} = useForm({
         mode:"onBlur",
-        resolver:yupResolver(schema)
+        resolver:yupResolver(schema),
     })
 
-    const isAgree = watch("agree")
-    console.log(isAgree)
+    useEffect(()=>{
+        if(isSubmitSuccessful){
+            reset()
+        }},[reset,isSubmitSuccessful]);
+
+    
+        // const isAgree = watch("agree")
+    
 
     const setValues = (value) => {
         setData(prev=> ({
@@ -108,12 +115,15 @@ const Form = () => {
 
     const onSubmit = (info) => {
         setValues(info)
-        console.log(info)
+        setChooseCountryPhone(' ')
+        setIsAgree(false)
+        
+        
     }
 
     return (
        <MainContainer>
-           <form onSubmit={handleSubmit(onSubmit)} className={styles.root} noValidate>
+           <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.root} noValidate>
            <div style={{position:'relative',width:"40%"}}>
            <AccountCircleOutlinedIcon 
                 style={{
@@ -240,7 +250,9 @@ const Form = () => {
                         name="agree"
                         {...register('agree')}
                         style={{marginLeft:10,color:'#6CEEC7',}}
-                        size='small'/>
+                        size='small'
+                        onClick={()=>setIsAgree(!isAgree)}
+                        checked={isAgree}/>
                         }
                 label={<span style={{fontSize:'0.9rem'}}>I agree to the 
                     <span 
@@ -249,7 +261,7 @@ const Form = () => {
                 />
 
                 </div>
-                <PrimaryButton isAgree={!isAgree} >Sign Up</PrimaryButton>
+                <PrimaryButton setIsAgree={setIsAgree} isAgree={!isAgree} >Sign Up</PrimaryButton>
            </form>
        </MainContainer>
     )
